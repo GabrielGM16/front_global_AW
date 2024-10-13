@@ -1,0 +1,14 @@
+.task-list {
+    margin: 20px;
+  }
+  
+  .task-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    list-style-type: none;
+  }
+  
+  .task-item:last-child {
+    border-bottom: none;
+  }
+  

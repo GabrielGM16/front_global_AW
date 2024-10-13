@@ -1,0 +1,30 @@
+.register-container {
+    width: 300px;
+    margin: 50px auto;
+  }
+  
+  .register-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .register-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #61dafb;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .register-button:hover {
+    background-color: #21a1f1;
+  }
+  
+  .error {
+    color: red;
+  }
+  
