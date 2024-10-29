@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/Login.css'; // Importar estilos
+import '../styles/Login.css';
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -10,27 +10,26 @@ function Login({ onLogin }) {
     e.preventDefault();
     setError('');
 
-    // Validaciones básicas
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
 
-    // Simulación de autenticación (en entorno real, enviar a la API)
     try {
-      // Enviar email y password a la API
-      const response = await fetch('/api/login', {
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Almacenar token de forma segura
-        onLogin(data.user);
-      } else {
+        localStorage.setItem('token', data.token); // Almacenar token
+        onLogin(data.user); // Actualiza el estado de autenticación en App
+      } else if (response.status === 401) {
         setError('Invalid credentials.');
+      } else {
+        setError('An error occurred, please try again.');
       }
     } catch (err) {
       setError('An error occurred, please try again.');

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import '../styles/Register.css'; // Importar estilos
+import '../styles/Register.css';
 
 function Register({ onRegister }) {
+  const [username, setUsername] = useState(''); // Estado para username
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -11,47 +12,56 @@ function Register({ onRegister }) {
     e.preventDefault();
     setError('');
 
-    // Validaciones
-    if (!email || !password || !confirmPassword) {
-      setError('Please fill in all fields.');
+    // Validaciones de los campos
+    if (!username || !email || !password || !confirmPassword) {
+      setError('Por favor, completa todos los campos.');
       return;
     }
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters long.');
+      setError('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Las contraseñas no coinciden.');
       return;
     }
 
-    // Simulación de registro (en un entorno real, enviar a la API)
     try {
-      const response = await fetch('/api/register', {
+      // Llamada a la API de registro
+      const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ username, email, password }), // Incluye username
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Almacenar token de forma segura
-        onRegister(data.user);
+        localStorage.setItem('token', data.token); // Almacenar token
+        onRegister(data.user); // Actualiza el estado de autenticación en App
       } else {
-        setError('Registration failed.');
+        const errorData = await response.json();
+        setError(errorData.message); // Muestra mensaje de error
       }
     } catch (err) {
-      setError('An error occurred, please try again.');
+      setError('Ocurrió un error, por favor intenta de nuevo.');
     }
   };
 
   return (
     <div className="register-container">
-      <h2>Register</h2>
+      <h2>Registro</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Nombre de usuario"
+          required
+          className="register-input"
+        />
         <input
           type="email"
           value={email}
@@ -64,7 +74,7 @@ function Register({ onRegister }) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="Contraseña"
           required
           className="register-input"
         />
@@ -72,11 +82,11 @@ function Register({ onRegister }) {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm Password"
+          placeholder="Confirmar Contraseña"
           required
           className="register-input"
         />
-        <button type="submit" className="register-button">Register</button>
+        <button type="submit" className="register-button">Registrar</button>
       </form>
     </div>
   );
