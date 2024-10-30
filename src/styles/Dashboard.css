@@ -1,0 +1,65 @@
+/* src/styles/Dashboard.css */
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 20px;
+  }
+  
+  .task-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  /* Estilo de cada tarjeta de tarea */
+  .task-card {
+    width: 100%;
+    max-width: 280px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .task-due-date, .task-status {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Colores específicos según el estado de la tarea */
+  .task-card.pendiente {
+    border-left: 5px solid #f8a1d1;
+    background-color: #fef2f5;
+  }
+  
+  .task-card.en-progreso {
+    border-left: 5px solid #fdd835;
+    background-color: #fff9e6;
+  }
+  
+  .task-card.completado {
+    border-left: 5px solid #81c784;
+    background-color: #e8f5e9;
+  }
+  

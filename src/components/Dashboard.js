@@ -1,4 +1,6 @@
+// src/components/Dashboard.js
 import React from 'react';
+import '../styles/Dashboard.css';
 
 const tasks = [
   { id: 1, title: 'Desarrollar componente Login', status: 'En Progreso', dueDate: '2024-10-20' },
@@ -9,13 +11,13 @@ const tasks = [
 const Dashboard = () => {
   return (
     <div className="dashboard-container">
-      <h2>Tablero de Tareas</h2>
+      <h2 className="dashboard-title">Tablero de Tareas</h2>
       <div className="task-list">
         {tasks.map(task => (
           <div key={task.id} className={`task-card ${task.status.toLowerCase()}`}>
-            <h3>{task.title}</h3>
-            <p>Fecha de entrega: {task.dueDate}</p>
-            <p>Estado: {task.status}</p>
+            <h3 className="task-title">{task.title}</h3>
+            <p className="task-due-date">Fecha de entrega: {task.dueDate}</p>
+            <p className="task-status">Estado: {task.status}</p>
           </div>
         ))}
       </div>

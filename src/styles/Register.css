@@ -1,30 +1,89 @@
+/* src/styles/Register.css */
+
+/* Fondo gradiente suave */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #fddede, #e6f7ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Contenedor de registro */
 .register-container {
-    width: 300px;
-    margin: 50px auto;
-  }
-  
-  .register-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #61dafb;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .register-button:hover {
-    background-color: #21a1f1;
-  }
-  
-  .error {
-    color: red;
-  }
-  
+  background-color: #ffffffcc; /* Fondo blanco con transparencia */
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Título */
+h2 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Input de texto */
+.register-input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f3f1f1;
+  color: #333;
+  font-size: 1rem;
+}
+
+.register-input:focus {
+  border-color: #a1c4fd;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Botón de registro */
+.register-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #f8a1d1; /* Color pastel */
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover {
+  background-color: #e093b6;
+}
+
+/* Mensaje de error */
+.error {
+  color: #e57373;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* Texto de invitación al login */
+.login-prompt {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Enlace de login */
+.login-link {
+  color: #a1c4fd;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}

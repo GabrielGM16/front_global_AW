@@ -1,4 +1,6 @@
+// src/components/Register.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importar Link para navegación
 import '../styles/Register.css';
 
 function Register({ onRegister }) {
@@ -88,6 +90,9 @@ function Register({ onRegister }) {
         />
         <button type="submit" className="register-button">Registrar</button>
       </form>
+      <p className="login-prompt">
+        ¿Ya tienes una cuenta? <Link to="/login" className="login-link">Inicia sesión aquí</Link>
+      </p>
     </div>
   );
 }

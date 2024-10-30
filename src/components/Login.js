@@ -1,4 +1,6 @@
+// src/components/Login.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importar Link para navegación
 import '../styles/Login.css';
 
 function Login({ onLogin }) {
@@ -59,6 +61,9 @@ function Login({ onLogin }) {
         />
         <button type="submit" className="login-button">Login</button>
       </form>
+      <p className="register-prompt">
+        Don't have an account? <Link to="/register" className="register-link">Register here</Link>
+      </p>
     </div>
   );
 }

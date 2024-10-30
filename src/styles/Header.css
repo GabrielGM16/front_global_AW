@@ -1,7 +1,52 @@
+/* src/styles/Header.css */
+
+/* Header y Footer de ancho completo con sticky */
+.header, .footer {
+  width: 100vw; /* Ancho completo de la pantalla */
+  left: 0;      /* Alinear al borde izquierdo de la pantalla */
+  background-color: #ffffffcc; /* Fondo blanco con transparencia */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Posición sticky para que permanezcan en la pantalla */
 .header {
-    background-color: #282c34;
-    padding: 20px;
-    color: white;
-    text-align: center;
-  }
-  
+  position: sticky;
+  top: 0;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+}
+
+/* Estilos de navegación en el Header */
+.navigation {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-button {
+  color: #444;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f8a1d1;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #e093b6;
+}
+
+.logout-button {
+  background-color: #a1c4fd;
+}
+
+.logout-button:hover {
+  background-color: #89a9e0;
+}
