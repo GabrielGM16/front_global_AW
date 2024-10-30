@@ -3,17 +3,17 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Asegúrate de que es la rama correcta
+      - master  # Cambia esto a la rama que usas para despliegue
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Clona todo el historial de Git
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -26,21 +26,10 @@ jobs:
       - name: Build the project
         run: npm run build
 
-      - name: Clean up Git Cache
-        run: |
-          rm -rf .git
-          git init
-          git remote add origin https://github.com/${{ github.repository }}.git
-          git fetch origin
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          force_orphan: true
+          branch: gh-pages  # Rama para despliegue
+          folder: build  # Cambia a `dist` si es necesario
+          clean: true  # Limpia la rama `gh-pages` antes de cada despliegue
+          token: ${{ secrets.GITHUB_TOKEN }}
