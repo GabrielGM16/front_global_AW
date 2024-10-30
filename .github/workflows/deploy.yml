@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Cambia esto a la rama principal de tu repositorio
+      - master  # Cambia esto si usas otra rama para despliegue
 
 jobs:
   build:
@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Última versión para evitar advertencias de Node.js
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Configurado para Node.js 20
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20'  # Asegúrate de que tu proyecto sea compatible con Node.js 20
 
       - name: Install dependencies
         run: npm install
@@ -29,14 +29,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Clear Git cache (solves potential issues with previous builds)
-        run: |
-          git rm -r --cached .
-          git clean -fxd
-          git pull origin master
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build  # Cambia a `dist` si usas Vue o Angular
+          force_orphan: true  # Fuerza la creación de una rama huérfana
