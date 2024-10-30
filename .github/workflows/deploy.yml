@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Cambia esto a la rama que usas para despliegue
+      - master  # Cambia esto si usas otra rama para despliegue
 
 jobs:
   build:
@@ -29,9 +29,15 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Allow Empty Commit to Prevent Conflicts
+        run: |
+          git commit --allow-empty -m "Force empty commit to gh-pages"
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages  # Especifica la rama para GitHub Pages
+          publish_branch: gh-pages
           publish_dir: ./build  # Cambia a `dist` si usas Vue o Angular
+          force_orphan: true  # Crea una rama huérfana para evitar conflictos de historial
+          keep_files: true  # Mantiene los archivos existentes en gh-pages para evitar sobrescritura
