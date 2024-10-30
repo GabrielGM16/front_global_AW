@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Cambia esto a la rama que usas para despliegue si es diferente
+      - master  # Cambia esto a la rama principal de tu repositorio
 
 jobs:
   build:
@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Usa la versión 3 para evitar deprecaciones
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Usa la versión 3
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'  # O '16' si prefieres esa versión
+          node-version: '20'  # Asegúrate de que tu proyecto sea compatible con Node.js 20
 
       - name: Install dependencies
         run: npm install
@@ -24,8 +24,13 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build  # Cambia a `dist` si estás usando Vue o Angular
+          publish_dir: ./build  # Cambia a `dist` si usas Vue o Angular
