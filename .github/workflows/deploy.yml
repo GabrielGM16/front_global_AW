@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Cambia esto si usas otra rama para despliegue
+      - master  # Asegúrate de que es la rama correcta
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Permite trabajar con el historial completo de Git
+          fetch-depth: 0  # Clona todo el historial de Git
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -26,7 +26,14 @@ jobs:
       - name: Build the project
         run: npm run build
 
-      - name: Configure Git for Deployment
+      - name: Clean up Git Cache
+        run: |
+          rm -rf .git
+          git init
+          git remote add origin https://github.com/${{ github.repository }}.git
+          git fetch origin
+
+      - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -35,7 +42,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build  # Cambia a `dist` si usas Vue o Angular
-          force_orphan: true  # Usa una rama huérfana
-          user_name: github-actions[bot]  # Configura el nombre de usuario para git
-          user_email: github-actions[bot]@users.noreply.github.com
+          publish_dir: ./build
+          force_orphan: true
