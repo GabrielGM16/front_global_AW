@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Última versión para evitar advertencias de Node.js
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3  # Configurado para Node.js 20
         with:
-          node-version: '20'  # Asegúrate de que tu proyecto sea compatible con Node.js 20
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -28,6 +28,12 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Clear Git cache (solves potential issues with previous builds)
+        run: |
+          git rm -r --cached .
+          git clean -fxd
+          git pull origin master
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
