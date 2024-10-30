@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Cambia esto a la rama que usas para despliegue
+      - master
 
 jobs:
   deploy:
@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # Rama para despliegue
-          folder: build  # Cambia a `dist` si es necesario
-          clean: true  # Limpia la rama `gh-pages` antes de cada despliegue
-          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: build  # Cambia a `dist` si usas Vue o Angular
+          clean: true
+          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}  # Usa el token personal en lugar de GITHUB_TOKEN
