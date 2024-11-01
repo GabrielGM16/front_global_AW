@@ -4,7 +4,7 @@
 .header, .footer {
   width: 100vw; /* Ancho completo de la pantalla */
   left: 0;      /* Alinear al borde izquierdo de la pantalla */
-  background-color: #ffffffcc; /* Fondo blanco con transparencia */
+  background-color: #2f4f4fcc; /* Fondo verde oscuro con transparencia */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -31,22 +31,29 @@
 }
 
 .nav-button {
-  color: #444;
+  color: #ffffff;
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 5px;
-  background-color: #f8a1d1;
+  background-color: #1b263b; /* Azul oscuro */
   transition: background-color 0.3s;
 }
 
 .nav-button:hover {
-  background-color: #e093b6;
+  background-color: #3c5a7d; /* Azul más claro para hover */
 }
 
 .logout-button {
-  background-color: #a1c4fd;
+  background-color: #c0392b; /* Rojo suave para Logout */
 }
 
 .logout-button:hover {
-  background-color: #89a9e0;
+  background-color: #e74c3c; /* Rojo intenso para hover en Logout */
+}
+
+/* Texto del Header */
+.header h1 {
+  color: #ffffff;
+  font-size: 1.5em;
+  margin: 0;
 }

@@ -9,6 +9,8 @@ import CreateTask from './components/CreateTask';
 import TaskList from './components/TaskList';
 import Login from './components/Login';
 import Register from './components/Register';
+import PETCapture from './components/PETCapture';
+import PETReport from './components/PETReport';
 import './App.css';
 
 function App() {
@@ -49,6 +51,8 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-task" element={<CreateTask onTaskCreated={handleTaskCreated} />} />
                 <Route path="/task-list" element={<TaskList tasks={[]} />} /> {/* Pasa tus tareas aquí */}
+                <Route path="/pet-capture" element={<PETCapture />} />
+                <Route path="/pet-report" element={<PETReport />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
