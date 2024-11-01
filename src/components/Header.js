@@ -12,6 +12,8 @@ function Header({ onLogout }) {
         <Link to="/dashboard" className="nav-button">Dashboard</Link>
         <Link to="/create-task" className="nav-button">Create Task</Link>
         <Link to="/task-list" className="nav-button">Task List</Link>
+        <Link to="/pet-capture" className="nav-button">Captura de PET</Link>
+        <Link to="/pet-report" className="nav-button">Reporte de PET</Link>
         <button className="nav-button logout-button" onClick={onLogout}>
           Logout
         </button>
