@@ -3,19 +3,22 @@ import '../styles/PETStyles.css';
 
 const PETReport = () => {
     const [reportData, setReportData] = useState([]);
+    const [error, setError] = useState(''); // Estado para manejar errores
 
     // Función para obtener los datos de la API o base de datos
     const fetchReportData = async () => {
         try {
-            // Simulación de una llamada a la API para obtener los datos (reemplaza con tu endpoint real)
-            const response = await fetch('/api/pet-report'); // URL de la API
+            // Llamada a la API para obtener los datos del reporte de captura de PET
+            const response = await fetch('http://localhost:5000/api/pet/pet-report');
             if (response.ok) {
                 const data = await response.json();
                 setReportData(data);
+                setError(''); // Limpia cualquier error previo
             } else {
-                console.error('Error al obtener los datos del reporte');
+                throw new Error(`Error al obtener los datos del reporte: ${response.statusText}`);
             }
         } catch (error) {
+            setError('Error en la conexión con el servidor');
             console.error('Error en la solicitud de datos:', error);
         }
     };
@@ -27,26 +30,30 @@ const PETReport = () => {
     return (
         <div className="pet-report">
             <h2>Reporte de Captura de PET</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Semana</th>
-                        <th>Peso (kg)</th>
-                        <th>Precio (USD)</th>
-                        <th>Precio (MXN)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {reportData.map((entry, index) => (
-                        <tr key={index}>
-                            <td>{entry.week}</td>
-                            <td>{entry.weight}</td>
-                            <td>{entry.priceUSD}</td>
-                            <td>{entry.priceMXN}</td>
+            {error ? (
+                <p>{error}</p>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha de Captura</th>
+                            <th>Peso (kg)</th>
+                            <th>Precio (USD)</th>
+                            <th>Precio (MXN)</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {reportData.map((entry, index) => (
+                            <tr key={index}>
+                                <td>{new Date(entry.capture_date).toLocaleDateString()}</td>
+                                <td>{entry.weight_kg}</td>
+                                <td>{entry.price_usd}</td>
+                                <td>{entry.price_mxn}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };
