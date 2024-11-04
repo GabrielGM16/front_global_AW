@@ -1,59 +1,24 @@
 /* src/styles/Header.css */
 
-/* Header y Footer de ancho completo con sticky */
-.header, .footer {
-  width: 100vw; /* Ancho completo de la pantalla */
-  left: 0;      /* Alinear al borde izquierdo de la pantalla */
-  background-color: #2f4f4fcc; /* Fondo verde oscuro con transparencia */
-  padding: 10px 20px;
+.header {
+  width: 100%;
+  background-color: #333;
+  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 15px 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
 }
-
-/* Posición sticky para que permanezcan en la pantalla */
-.header {
-  position: sticky;
-  top: 0;
-}
-
-.footer {
-  position: sticky;
-  bottom: 0;
-}
-
-/* Estilos de navegación en el Header */
-.navigation {
-  display: flex;
-  gap: 15px;
-}
-
 .nav-button {
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  background-color: #1b263b; /* Azul oscuro */
-  transition: background-color 0.3s;
+  padding: 10px;
 }
-
-.nav-button:hover {
-  background-color: #3c5a7d; /* Azul más claro para hover */
-}
-
 .logout-button {
-  background-color: #c0392b; /* Rojo suave para Logout */
-}
-
-.logout-button:hover {
-  background-color: #e74c3c; /* Rojo intenso para hover en Logout */
-}
-
-/* Texto del Header */
-.header h1 {
-  color: #ffffff;
-  font-size: 1.5em;
-  margin: 0;
+  background-color: #e57373;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
 }

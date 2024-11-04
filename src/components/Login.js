@@ -1,6 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Importar Link para navegación
+import { Link } from 'react-router-dom';
 import '../styles/Login.css';
 
 function Login({ onLogin }) {
@@ -13,12 +13,12 @@ function Login({ onLogin }) {
     setError('');
 
     if (!email || !password) {
-      setError('Please fill in all fields.');
+      setError('Por favor completa todos los campos.');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', { // Asegúrate que la ruta esté correcta
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -26,28 +26,28 @@ function Login({ onLogin }) {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Almacenar token
+        localStorage.setItem('token', data.token); // Guarda el token en localStorage
         onLogin(data.user); // Actualiza el estado de autenticación en App
       } else if (response.status === 401) {
-        setError('Invalid credentials.');
+        setError('Credenciales incorrectas.');
       } else {
-        setError('An error occurred, please try again.');
+        setError('Ocurrió un error, por favor intenta de nuevo.');
       }
     } catch (err) {
-      setError('An error occurred, please try again.');
+      setError('Ocurrió un error, por favor intenta de nuevo.');
     }
   };
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Iniciar Sesión</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          placeholder="Correo electrónico"
           required
           className="login-input"
         />
@@ -55,14 +55,14 @@ function Login({ onLogin }) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="Contraseña"
           required
           className="login-input"
         />
-        <button type="submit" className="login-button">Login</button>
+        <button type="submit" className="login-button">Iniciar Sesión</button>
       </form>
       <p className="register-prompt">
-        Don't have an account? <Link to="/register" className="register-link">Register here</Link>
+        ¿No tienes una cuenta? <Link to="/register" className="register-link">Regístrate aquí</Link>
       </p>
     </div>
   );
