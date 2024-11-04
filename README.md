@@ -1,70 +1,151 @@
-# Getting Started with Create React App
+# Administrador de Tareas - Captura de PET (Frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto de frontend es la interfaz de usuario para una aplicación de **Administración de Tareas y Captura de PET**, diseñada para facilitar la gestión de la captura de PET en tiempo real y la visualización de reportes, con funcionalidades de gestión de usuarios, tareas y captura semanal de PET.
 
-## Available Scripts
+## Índice
 
-In the project directory, you can run:
+- [Características](#características)
+- [Tecnologías Usadas](#tecnologías-usadas)
+- [Requisitos](#requisitos)
+- [Instalación](#instalación)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Scripts Disponibles](#scripts-disponibles)
+- [Funcionalidades](#funcionalidades)
+- [Documentación de API](#documentación-de-api)
+- [Contribuciones](#contribuciones)
+
+## Características
+
+- Registro y autenticación de usuarios (administradores y operadores).
+- Registro semanal de la cantidad de PET recolectado por operadores.
+- Cálculo automático del valor de PET en USD y MXN.
+- Visualización de reportes de captura de PET.
+- Administración de usuarios por parte de un administrador.
+- Interfaz de usuario intuitiva y fácil de usar.
+
+## Tecnologías Usadas
+
+- **Frontend**: React
+- **Ruteo**: React Router DOM
+- **Autenticación**: JWT (JSON Web Token) almacenado en `localStorage`.
+- **Estilos**: CSS puro, estructura modular de estilos en cada componente.
+- **Backend** (proyecto asociado): Node.js con Express (ver el repositorio [backend](URL_DEL_BACKEND)).
+
+## Requisitos
+
+- **Node.js** y **npm** instalados
+- Backend en funcionamiento en el puerto `5000` o según se haya configurado
+
+## Instalación
+
+1. Clona este repositorio:
+
+   ```bash
+   git clone https://github.com/GabrielGM16/front_global_aw.git
+   cd front_global_aw
+   ```
+
+2. Instala las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+3. Configura las variables de entorno necesarias en el archivo `.env` (en el frontend puede no ser necesario, pero asegúrate de que el backend esté configurado correctamente).
+
+4. Ejecuta el proyecto:
+
+   ```bash
+   npm start
+   ```
+
+5. Accede a la aplicación en `http://localhost:3000`.
+
+## Estructura del Proyecto
+
+```plaintext
+├── src
+│   ├── components
+│   │   ├── Header.js
+│   │   ├── Footer.js
+│   │   ├── Home.js
+│   │   ├── Dashboard.js
+│   │   ├── CreateTask.js
+│   │   ├── TaskList.js
+│   │   ├── Login.js
+│   │   ├── Register.js
+│   │   ├── PETCapture.js
+│   │   ├── PETReport.js
+│   ├── styles
+│   │   ├── App.css
+│   │   ├── Header.css
+│   │   ├── Footer.css
+│   │   ├── Home.css
+│   │   └── ...
+│   ├── App.js
+│   ├── index.js
+└── README.md
+```
+
+- **components/**: Contiene todos los componentes reutilizables de la interfaz.
+- **styles/**: Contiene los archivos CSS de cada componente, manteniendo la estructura modular.
+- **App.js**: Punto principal de la aplicación, maneja las rutas y el estado de autenticación.
+- **index.js**: Punto de entrada del proyecto.
+
+## Scripts Disponibles
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Inicia la aplicación en modo de desarrollo. Normalmente se ejecuta en `http://localhost:3000`.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Compila la aplicación para producción en la carpeta `build`, optimizándola para el mejor rendimiento.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Funcionalidades
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 1. Autenticación de Usuarios
+   - **Login**: Los usuarios pueden iniciar sesión y autenticarse usando JWT. Los tokens se almacenan en `localStorage` y son utilizados para acceder a las rutas protegidas.
+   - **Registro**: Los nuevos usuarios pueden registrarse en la aplicación.
 
-### `npm run eject`
+### 2. Registro de Captura de PET
+   - Los operadores pueden capturar semanalmente el PET recolectado.
+   - Se calcula el valor del PET automáticamente en USD y MXN según el peso ingresado.
+   - Los datos se registran para ser consultados posteriormente en los reportes.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 3. Visualización de Reportes de PET
+   - Los usuarios pueden ver un historial de capturas anteriores en formato de tabla.
+   - Incluye información sobre la fecha de captura, el peso en kg, y los valores en USD y MXN.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 4. Gestión de Tareas
+   - Se permite a los usuarios agregar, visualizar y completar tareas relacionadas con la recolección de PET.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 5. Roles de Usuario
+   - **Administrador**: Puede gestionar usuarios y ver reportes completos.
+   - **Operador**: Limitado a la funcionalidad de captura y visualización de reportes de PET.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Documentación de API
 
-## Learn More
+La aplicación consume las siguientes rutas de la API backend (configuradas para el puerto `5000`):
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **POST `/api/auth/register`**: Registra un nuevo usuario.
+- **POST `/api/auth/login`**: Autentica a un usuario y devuelve un token JWT.
+- **POST `/api/pet/pet-capture`**: Registra una nueva captura de PET.
+- **GET `/api/pet/pet-report`**: Obtiene el reporte de capturas de PET.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+> Para detalles de implementación y código, consulta el repositorio backend asociado.
 
-### Code Splitting
+## Contribuciones
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Para contribuir, sigue estos pasos:
 
-### Analyzing the Bundle Size
+1. Realiza un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y realiza commit (`git commit -am 'Agrega nueva funcionalidad'`).
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Crea un Pull Request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Licencia
 
-### Making a Progressive Web App
+Este proyecto es de código abierto y se distribuye bajo la licencia MIT.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
