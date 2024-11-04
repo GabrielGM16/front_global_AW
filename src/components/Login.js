@@ -1,12 +1,14 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import '../styles/Login.css';
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Inicializar el hook de navegación
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ function Login({ onLogin }) {
         const data = await response.json();
         localStorage.setItem('token', data.token); // Guarda el token en localStorage
         onLogin(data.user); // Actualiza el estado de autenticación en App
+        navigate('/dashboard'); // Redirigir al dashboard
       } else if (response.status === 401) {
         setError('Credenciales incorrectas.');
       } else {
