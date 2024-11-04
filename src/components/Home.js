@@ -20,7 +20,7 @@ function Home() {
           </p>
         </div>
          <img
-        src={`${process.env.PUBLIC_URL}/images/IPET.png`} // Ruta desde `public/images`
+        src={`${process.env.PUBLIC_URL}/images/PET.png`} // Ruta desde `public/images`
         alt="Sustainable PET Recycling"
         className="home-image"
       />
