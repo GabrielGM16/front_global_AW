@@ -29,7 +29,7 @@ Este proyecto de frontend es la interfaz de usuario para una aplicación de **Ad
 - **Ruteo**: React Router DOM
 - **Autenticación**: JWT (JSON Web Token) almacenado en `localStorage`.
 - **Estilos**: CSS puro, estructura modular de estilos en cada componente.
-- **Backend** (proyecto asociado): Node.js con Express (ver el repositorio [backend](URL_DEL_BACKEND)).
+- **Backend** (proyecto asociado): Node.js con Express (ver el repositorio [backend](https://github.com/GabrielGM16/back_global_aw)).
 
 ## Requisitos
 
