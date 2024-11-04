@@ -1,6 +1,6 @@
 // src/components/Register.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Register.css';
 
 function Register({ onRegister }) {
@@ -9,6 +9,8 @@ function Register({ onRegister }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // Para mostrar mensaje de éxito
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,9 +41,8 @@ function Register({ onRegister }) {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token); // Guarda el token en localStorage
-        onRegister(data.user); // Actualiza el estado de autenticación en App
+        setSuccessMessage('Usuario registrado correctamente. Redirigiendo a la página de inicio de sesión...');
+        setTimeout(() => navigate('/login'), 2000);
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Error al registrarse.');

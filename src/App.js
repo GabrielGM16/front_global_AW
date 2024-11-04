@@ -14,7 +14,7 @@ import PETReport from './components/PETReport';
 import './App.css';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Inicialmente, no autenticado
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleLogin = () => setIsAuthenticated(true);
   const handleLogout = () => setIsAuthenticated(false);
@@ -22,26 +22,33 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Header onLogout={handleLogout} />
+        <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
         <div className="main-content">
           <Routes>
-            {!isAuthenticated ? (
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Rutas protegidas */}
+            {isAuthenticated ? (
               <>
-                <Route path="/login" element={<Login onLogin={handleLogin} />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="*" element={<Navigate to="/login" />} />
-              </>
-            ) : (
-              <>
-                <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-task" element={<CreateTask />} />
                 <Route path="/task-list" element={<TaskList />} />
                 <Route path="/pet-capture" element={<PETCapture />} />
                 <Route path="/pet-report" element={<PETReport />} />
-                <Route path="*" element={<Navigate to="/" />} />
+              </>
+            ) : (
+              <>
+                <Route path="/dashboard" element={<Navigate to="/login" />} />
+                <Route path="/create-task" element={<Navigate to="/login" />} />
+                <Route path="/task-list" element={<Navigate to="/login" />} />
+                <Route path="/pet-capture" element={<Navigate to="/login" />} />
+                <Route path="/pet-report" element={<Navigate to="/login" />} />
               </>
             )}
+
+            <Route path="*" element={<Navigate to="/" />} /> {/* Redirección a Home por defecto */}
           </Routes>
         </div>
         <Footer />
