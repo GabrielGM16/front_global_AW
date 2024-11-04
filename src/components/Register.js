@@ -16,7 +16,6 @@ function Register({ onRegister }) {
     e.preventDefault();
     setError('');
 
-    // Validaciones de los campos
     if (!username || !email || !password || !confirmPassword) {
       setError('Por favor, completa todos los campos.');
       return;
@@ -33,8 +32,7 @@ function Register({ onRegister }) {
     }
 
     try {
-      // Llamada a la API de registro
-      const response = await fetch('http://localhost:5000/api/auth/register', { // Asegúrate que la ruta sea correcta
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),
@@ -56,6 +54,7 @@ function Register({ onRegister }) {
     <div className="register-container">
       <h2>Registro</h2>
       {error && <p className="error">{error}</p>}
+      {successMessage && <p className="success">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
