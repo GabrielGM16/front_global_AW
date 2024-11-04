@@ -14,24 +14,10 @@ import PETReport from './components/PETReport';
 import './App.css';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Cambia a 'true' para probar rutas
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Inicialmente, no autenticado
 
-  const handleLogin = (userData) => {
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-  };
-
-  const handleRegister = (userData) => {
-    setIsAuthenticated(true);
-  };
-
-  const handleTaskCreated = (newTask) => {
-    // Lógica para manejar nueva tarea (puedes guardarla en el estado o base de datos)
-    console.log('Nueva tarea creada:', newTask);
-  };
+  const handleLogin = () => setIsAuthenticated(true);
+  const handleLogout = () => setIsAuthenticated(false);
 
   return (
     <Router>
@@ -42,15 +28,15 @@ function App() {
             {!isAuthenticated ? (
               <>
                 <Route path="/login" element={<Login onLogin={handleLogin} />} />
-                <Route path="/register" element={<Register onRegister={handleRegister} />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="*" element={<Navigate to="/login" />} />
               </>
             ) : (
               <>
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/create-task" element={<CreateTask onTaskCreated={handleTaskCreated} />} />
-                <Route path="/task-list" element={<TaskList tasks={[]} />} /> {/* Pasa tus tareas aquí */}
+                <Route path="/create-task" element={<CreateTask />} />
+                <Route path="/task-list" element={<TaskList />} />
                 <Route path="/pet-capture" element={<PETCapture />} />
                 <Route path="/pet-report" element={<PETReport />} />
                 <Route path="*" element={<Navigate to="/" />} />

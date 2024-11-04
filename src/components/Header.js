@@ -6,17 +6,15 @@ import '../styles/Header.css';
 function Header({ onLogout }) {
   return (
     <header className="header">
-      <h1>Welcome to the Task Management App</h1>
-      <nav className="navigation">
-        <Link to="/home" className="nav-button">Home</Link>
+      <h1>Plataforma de Gestión de PET</h1>
+      <nav>
+        <Link to="/" className="nav-button">Home</Link>
         <Link to="/dashboard" className="nav-button">Dashboard</Link>
         <Link to="/create-task" className="nav-button">Create Task</Link>
         <Link to="/task-list" className="nav-button">Task List</Link>
         <Link to="/pet-capture" className="nav-button">Captura de PET</Link>
         <Link to="/pet-report" className="nav-button">Reporte de PET</Link>
-        <button className="nav-button logout-button" onClick={onLogout}>
-          Logout
-        </button>
+        <button onClick={onLogout} className="nav-button logout-button">Logout</button>
       </nav>
     </header>
   );

@@ -1,10 +1,10 @@
 // src/components/Register.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Importar Link para navegación
+import { Link } from 'react-router-dom';
 import '../styles/Register.css';
 
 function Register({ onRegister }) {
-  const [username, setUsername] = useState(''); // Estado para username
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -32,19 +32,19 @@ function Register({ onRegister }) {
 
     try {
       // Llamada a la API de registro
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', { // Asegúrate que la ruta sea correcta
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }), // Incluye username
+        body: JSON.stringify({ username, email, password }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Almacenar token
+        localStorage.setItem('token', data.token); // Guarda el token en localStorage
         onRegister(data.user); // Actualiza el estado de autenticación en App
       } else {
         const errorData = await response.json();
-        setError(errorData.message); // Muestra mensaje de error
+        setError(errorData.message || 'Error al registrarse.');
       }
     } catch (err) {
       setError('Ocurrió un error, por favor intenta de nuevo.');
@@ -68,7 +68,7 @@ function Register({ onRegister }) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          placeholder="Correo electrónico"
           required
           className="register-input"
         />

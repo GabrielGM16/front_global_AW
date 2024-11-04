@@ -1,41 +1,12 @@
 /* src/App.css */
 
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-}
-
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Centrado solo de textos genéricos, no afecta a los componentes específicos */
-h1, h2 {
-  color: #333;
-  text-align: center;
-}
-
-p {
-  color: #666;
-}
-
-a {
-  color: #61dafb;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* Ajuste de .main-content para evitar que se superponga con header y footer */
 .main-content {
   flex: 1;
-  padding-top: 80px; /* Espacio para el header sticky */
-  padding-bottom: 60px; /* Espacio para el footer sticky */
+  padding: 20px;
 }
