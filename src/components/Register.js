@@ -10,19 +10,28 @@ function Register({ onRegister }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState(''); // Para mostrar mensaje de éxito
+  const [passwordError, setPasswordError] = useState(''); // Para mostrar errores de contraseña
+
   const navigate = useNavigate();
+
+  // Validación de requisitos mínimos de la contraseña
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setPasswordError('');
 
     if (!username || !email || !password || !confirmPassword) {
       setError('Por favor, completa todos los campos.');
       return;
     }
 
-    if (password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres.');
+    if (!validatePassword(password)) {
+      setPasswordError('La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.');
       return;
     }
 
@@ -75,11 +84,19 @@ function Register({ onRegister }) {
         <input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (!validatePassword(e.target.value)) {
+              setPasswordError('La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.');
+            } else {
+              setPasswordError('');
+            }
+          }}
           placeholder="Contraseña"
           required
           className="register-input"
         />
+        {passwordError && <p className="error">{passwordError}</p>}
         <input
           type="password"
           value={confirmPassword}
