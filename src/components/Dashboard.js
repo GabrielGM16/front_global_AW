@@ -1,5 +1,5 @@
 // src/components/Dashboard.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -22,7 +22,7 @@ const Dashboard = ({ userRole, userEmail }) => {
   const [endDate, setEndDate] = useState('');
 
   // Función para obtener los datos del reporte de captura de PET
-  const fetchReportData = async () => {
+  const fetchReportData = useCallback(async () => {
     try {
       const token = localStorage.getItem('token'); // Usa el token de autenticación
       const response = await fetch('http://localhost:5000/api/pet/pet-report', {
@@ -47,11 +47,11 @@ const Dashboard = ({ userRole, userEmail }) => {
     } catch (error) {
       console.error('Error en la solicitud de datos:', error);
     }
-  };
+  }, [userRole, userEmail]);
 
   useEffect(() => {
     fetchReportData();
-  }, []);
+  }, [fetchReportData]);
 
   useEffect(() => {
     if (startDate && endDate) {
