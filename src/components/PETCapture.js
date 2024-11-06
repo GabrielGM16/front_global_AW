@@ -1,3 +1,4 @@
+// src/components/PETCapture.js
 import React, { useState } from 'react';
 import '../styles/PETStyles.css';
 
@@ -26,14 +27,20 @@ const PETCapture = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setMessage(''); // Reinicia el mensaje
 
         try {
-            const token = localStorage.getItem('token'); // Obtén el token del almacenamiento local
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setMessage('Por favor, inicia sesión para registrar capturas.');
+                return;
+            }
+
             const response = await fetch('http://localhost:5000/api/pet/pet-capture', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Agrega el token en el encabezado
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     capture_date: date,
@@ -42,7 +49,6 @@ const PETCapture = () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
                 setMessage('Captura registrada exitosamente.');
                 setDate('');
                 setWeight('');
@@ -50,10 +56,10 @@ const PETCapture = () => {
                 setPriceMXN('');
             } else {
                 setMessage('Error al registrar la captura.');
-                console.error('Error al registrar captura:', response.statusText);
+                console.error('Error al registrar captura:', await response.json());
             }
         } catch (error) {
-            setMessage('Error en la conexión con el servidor');
+            setMessage('Error en la conexión con el servidor.');
             console.error('Error en la solicitud:', error);
         }
     };
@@ -64,11 +70,23 @@ const PETCapture = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     Fecha de Captura:
-                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+                    <input
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                    />
                 </label>
                 <label>
                     Peso del PET (kg):
-                    <input type="number" min="0.1" step="0.1" value={weight} onChange={handleWeightChange} required />
+                    <input
+                        type="number"
+                        min="0.1"
+                        step="0.1"
+                        value={weight}
+                        onChange={handleWeightChange}
+                        required
+                    />
                 </label>
                 <label>
                     Precio Calculado (USD):
@@ -80,7 +98,7 @@ const PETCapture = () => {
                 </label>
                 <button type="submit">Registrar Captura</button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className="message">{message}</p>}
         </div>
     );
 };
