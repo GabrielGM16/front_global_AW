@@ -104,7 +104,7 @@ function Register({ onRegister }) {
           className="register-input"
         />
         <div className="password-requirements">
-          {!isPasswordValid() && (
+          {(!isPasswordValid()) && (
             <>
               <p className="requirements-message">La contraseña debe incluir:</p>
               <ul>
