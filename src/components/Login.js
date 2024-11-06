@@ -1,7 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { Link, useNavigate } from 'react-router-dom'; // Importar Link y useNavigate
 import '../styles/Login.css';
 
 function Login({ onLogin }) {
@@ -28,9 +27,14 @@ function Login({ onLogin }) {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Guarda el token en localStorage
-        onLogin(data.user); // Actualiza el estado de autenticación en App
-        navigate('/dashboard'); // Redirigir al dashboard
+        // Almacena el token, rol y email en localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userRole', data.user.role);
+        localStorage.setItem('userEmail', data.user.email);
+
+        // Llama a onLogin con los datos completos del usuario
+        onLogin({ role: data.user.role, email: data.user.email, token: data.token });
+        navigate('/dashboard'); // Redirige al dashboard después de iniciar sesión
       } else if (response.status === 401) {
         setError('Credenciales incorrectas.');
       } else {

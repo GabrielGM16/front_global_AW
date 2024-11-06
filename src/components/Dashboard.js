@@ -15,7 +15,7 @@ import '../styles/Dashboard.css';
 // Registrar las escalas y elementos
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const Dashboard = () => {
+const Dashboard = ({ userRole, userEmail }) => {
   const [weeklyData, setWeeklyData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [startDate, setStartDate] = useState('');
@@ -24,10 +24,22 @@ const Dashboard = () => {
   // Función para obtener los datos del reporte de captura de PET
   const fetchReportData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/pet/pet-report');
+      const token = localStorage.getItem('token'); // Usa el token de autenticación
+      const response = await fetch('http://localhost:5000/api/pet/pet-report', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
       if (response.ok) {
         const data = await response.json();
-        setWeeklyData(data);
+
+        // Filtrar datos según el rol del usuario
+        if (userRole === 'admin') {
+          setWeeklyData(data);
+        } else {
+          setWeeklyData(data.filter(item => item.user_email === userEmail));
+        }
         setFilteredData(data); // Por defecto, muestra todos los datos
       } else {
         console.error('Error al obtener los datos del reporte:', response.statusText);

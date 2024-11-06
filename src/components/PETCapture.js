@@ -1,4 +1,3 @@
-// src/components/PETCapture.js
 import React, { useState } from 'react';
 import '../styles/PETStyles.css';
 
@@ -7,10 +6,10 @@ const PETCapture = () => {
     const [date, setDate] = useState('');
     const [priceUSD, setPriceUSD] = useState('');
     const [priceMXN, setPriceMXN] = useState('');
-    const [message, setMessage] = useState(''); // Para mostrar mensajes de éxito o error
+    const [message, setMessage] = useState('');
 
-    const conversionRate = 18; // Tasa de cambio de USD a MXN
-    const ratePerKgUSD = 0.5; // Precio por kg en dólares
+    const conversionRate = 18;
+    const ratePerKgUSD = 0.5;
 
     const calculatePrices = (weight) => {
         const priceInUSD = weight * ratePerKgUSD;
@@ -25,18 +24,16 @@ const PETCapture = () => {
         calculatePrices(newWeight);
     };
 
-    const handleDateChange = (event) => {
-        setDate(event.target.value);
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
+            const token = localStorage.getItem('token'); // Obtén el token del almacenamiento local
             const response = await fetch('http://localhost:5000/api/pet/pet-capture', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Agrega el token en el encabezado
                 },
                 body: JSON.stringify({
                     capture_date: date,
@@ -47,7 +44,6 @@ const PETCapture = () => {
             if (response.ok) {
                 const data = await response.json();
                 setMessage('Captura registrada exitosamente.');
-                console.log('Captura registrada:', data);
                 setDate('');
                 setWeight('');
                 setPriceUSD('');
@@ -57,7 +53,7 @@ const PETCapture = () => {
                 console.error('Error al registrar captura:', response.statusText);
             }
         } catch (error) {
-            setMessage('Error al conectar con el servidor.');
+            setMessage('Error en la conexión con el servidor');
             console.error('Error en la solicitud:', error);
         }
     };
@@ -68,7 +64,7 @@ const PETCapture = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     Fecha de Captura:
-                    <input type="date" value={date} onChange={handleDateChange} required />
+                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                 </label>
                 <label>
                     Peso del PET (kg):

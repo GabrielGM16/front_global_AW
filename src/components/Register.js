@@ -8,30 +8,44 @@ function Register({ onRegister }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role] = useState('operator'); // Rol predeterminado como "operator"
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // Para mostrar mensaje de éxito
-  const [passwordError, setPasswordError] = useState(''); // Para mostrar errores de contraseña
+  const [successMessage, setSuccessMessage] = useState('');
+  const [passwordError, setPasswordError] = useState({
+    length: true,
+    uppercase: true,
+    lowercase: true,
+    number: true,
+    specialChar: true,
+  });
 
   const navigate = useNavigate();
 
-  // Validación de requisitos mínimos de la contraseña
-  const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
+  // Validación de requisitos de la contraseña
+  const handlePasswordChange = (password) => {
+    setPassword(password);
+    setPasswordError({
+      length: password.length < 8,
+      uppercase: !/[A-Z]/.test(password),
+      lowercase: !/[a-z]/.test(password),
+      number: !/\d/.test(password),
+      specialChar: !/[@$!%*?&]/.test(password),
+    });
   };
+
+  const isPasswordValid = () => Object.values(passwordError).every((error) => !error);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setPasswordError('');
 
     if (!username || !email || !password || !confirmPassword) {
       setError('Por favor, completa todos los campos.');
       return;
     }
 
-    if (!validatePassword(password)) {
-      setPasswordError('La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.');
+    if (!isPasswordValid()) {
+      setError('La contraseña no cumple con los requisitos.');
       return;
     }
 
@@ -44,7 +58,7 @@ function Register({ onRegister }) {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, role }),
       });
 
       if (response.ok) {
@@ -84,19 +98,35 @@ function Register({ onRegister }) {
         <input
           type="password"
           value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            if (!validatePassword(e.target.value)) {
-              setPasswordError('La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.');
-            } else {
-              setPasswordError('');
-            }
-          }}
+          onChange={(e) => handlePasswordChange(e.target.value)}
           placeholder="Contraseña"
           required
           className="register-input"
         />
-        {passwordError && <p className="error">{passwordError}</p>}
+        <div className="password-requirements">
+          {!isPasswordValid() && (
+            <>
+              <p className="requirements-message">La contraseña debe incluir:</p>
+              <ul>
+                <li className={`requirement ${!passwordError.length ? 'valid' : ''}`}>
+                  {passwordError.length ? 'Al menos 8 caracteres' : '✓ Al menos 8 caracteres'}
+                </li>
+                <li className={`requirement ${!passwordError.uppercase ? 'valid' : ''}`}>
+                  {passwordError.uppercase ? 'Una letra mayúscula' : '✓ Una letra mayúscula'}
+                </li>
+                <li className={`requirement ${!passwordError.lowercase ? 'valid' : ''}`}>
+                  {passwordError.lowercase ? 'Una letra minúscula' : '✓ Una letra minúscula'}
+                </li>
+                <li className={`requirement ${!passwordError.number ? 'valid' : ''}`}>
+                  {passwordError.number ? 'Un número' : '✓ Un número'}
+                </li>
+                <li className={`requirement ${!passwordError.specialChar ? 'valid' : ''}`}>
+                  {passwordError.specialChar ? 'Un carácter especial (@$!%*?&)' : '✓ Un carácter especial (@$!%*?&)'}
+                </li>
+              </ul>
+            </>
+          )}
+        </div>
         <input
           type="password"
           value={confirmPassword}
@@ -105,10 +135,17 @@ function Register({ onRegister }) {
           required
           className="register-input"
         />
+        <input
+          type="text"
+          value={role}
+          disabled
+          className="register-input"
+          placeholder="Rol (solo lectura)"
+        />
         <button type="submit" className="register-button">Registrar</button>
       </form>
       <p className="login-prompt">
-        ¿Ya tienes una cuenta? <Link to="/login" className="login-link">Inicia sesión aquí</Link>
+        ¿Ya tienes una cuenta? <Link to="/login" className="register-link">Inicia sesión aquí</Link>
       </p>
     </div>
   );

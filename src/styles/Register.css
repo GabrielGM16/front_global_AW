@@ -59,3 +59,29 @@ h2 {
 .login-link:hover {
   text-decoration: underline;
 }
+
+
+
+.requirements-message {
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.requirement {
+  list-style-type: none;
+  color: #e57373; /* Rojo claro */
+  transition: color 0.3s;
+}
+
+.requirement.valid {
+  color: #4caf50; /* Verde claro */
+}
+
+.requirement::before {
+  content: '• ';
+}
+
+.valid::before {
+  content: '✓ ';
+}

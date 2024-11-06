@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -15,26 +15,68 @@ import './App.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
 
-  const handleLogin = () => setIsAuthenticated(true);
-  const handleLogout = () => setIsAuthenticated(false);
+  useEffect(() => {
+    // Cargar el estado de autenticación y rol del usuario desde localStorage
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('userRole');
+    const email = localStorage.getItem('userEmail');
+    if (token && role && email) {
+      setIsAuthenticated(true);
+      setUserRole(role);
+      setUserEmail(email);
+    }
+  }, []);
+
+  const handleLogin = (userData) => {
+    setIsAuthenticated(true);
+    setUserRole(userData.role);
+    setUserEmail(userData.email);
+
+    // Guardar los datos en localStorage para persistencia
+    localStorage.setItem('token', userData.token);
+    localStorage.setItem('userRole', userData.role);
+    localStorage.setItem('userEmail', userData.email);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserRole(null);
+    setUserEmail(null);
+
+    // Limpiar localStorage al cerrar sesión
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+  };
 
   return (
     <Router>
       <div className="app">
-        <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        <Header 
+          isAuthenticated={isAuthenticated} 
+          onLogout={handleLogout} 
+          userRole={userRole} 
+          userEmail={userEmail} 
+        />
         <div className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register />} />
-            
+
             {/* Rutas protegidas */}
             {isAuthenticated ? (
               <>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/create-task" element={<CreateTask />} />
-                <Route path="/task-list" element={<TaskList />} />
+                <Route path="/dashboard" element={<Dashboard userRole={userRole} />} />
+                {userRole === 'admin' && (
+                  <>
+                    <Route path="/create-task" element={<CreateTask />} />
+                    <Route path="/task-list" element={<TaskList />} />
+                  </>
+                )}
                 <Route path="/pet-capture" element={<PETCapture />} />
                 <Route path="/pet-report" element={<PETReport />} />
               </>
